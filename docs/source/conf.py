@@ -1,8 +1,23 @@
 import sys
 import os
+import shutil
 
-# Adicione o caminho do seu projeto Python para o sys.path
-sys.path.insert(0, os.path.abspath('../'))
+# Obter o caminho absoluto dos arquivos de estilo
+pygments_css = os.path.abspath('../build/_static/pygments.css')
+alabaster_css = os.path.abspath('../build/_static/alabaster.css')
+basics_css = os.path.abspath('../build/_static/basic.css')
+
+# Construir o caminho para a pasta _static dentro de build/html
+build_static_path = os.path.join(os.path.abspath('../build/html'), '_static')
+
+# Certificar-se de que a pasta build/html/_static existe
+os.makedirs(build_static_path, exist_ok=True)
+
+# Copiar os arquivos para a pasta de destino
+shutil.copyfile(pygments_css, os.path.join(build_static_path, 'pygments.css'))
+shutil.copyfile(alabaster_css, os.path.join(build_static_path, 'alabaster.css'))
+shutil.copyfile(basics_css, os.path.join(build_static_path, 'basic.css'))
+
 
 # Configuration file for the Sphinx documentation builder.
 #
