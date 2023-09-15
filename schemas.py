@@ -1,24 +1,53 @@
 from pydantic import BaseModel
 from models import Curso
 
-# Definindo uma classe chamada CursoBase que herda de BaseModel.
 class CursoBase(BaseModel):
-    titulo: str          # Um campo para o título do curso (str).
-    descricao: str       # Um campo para a descrição do curso (str).
-    carga_horaria: int   # Um campo para a carga horária do curso (int).
-    qtd_exercicios: int  # Um campo para a quantidade de exercícios do curso (int).
+    """
+    Define a classe base para representar um curso.
 
-# Definindo uma classe chamada CursoRequest que herda de CursoBase.
+    Attributes:
+        titulo (str): O título do curso.
+        descricao (str): A descrição do curso.
+        carga_horaria (int): A carga horária do curso em horas.
+        qtd_exercicios (int): A quantidade de exercícios no curso.
+    """
+    titulo: str
+    descricao: str
+    carga_horaria: int
+    qtd_exercicios: int
+
 class CursoRequest(CursoBase):
-    pass  # Aqui você pode adicionar campos adicionais específicos para requisições de criação ou atualização de cursos.
+    """
+    Define a classe para representar a requisição de criação de um curso.
 
-# Definindo uma classe chamada CursoResponse que herda de CursoBase.
+    Inherits:
+        CursoBase
+    """
+    pass
+
 class CursoResponse(CursoBase):
-    id: int  # Adicionando um campo ID para a resposta.
+    """
+    Define a classe para representar a resposta de um curso.
 
-    # Método de classe para criar uma instância de CursoResponse a partir de um objeto Curso (ORM).
+    Inherits:
+        CursoBase
+
+    Attributes:
+        id (int): O ID do curso.
+    """
+    id: int
+
     @classmethod
     def from_orm(cls, curso_orm: Curso):
+        """
+        Cria uma instância de CursoResponse a partir de um objeto Curso do banco de dados.
+
+        Args:
+            curso_orm (Curso): O objeto Curso do banco de dados.
+
+        Returns:
+            CursoResponse: A instância de CursoResponse criada.
+        """
         return cls(
             id=curso_orm.id,
             titulo=curso_orm.titulo,
@@ -27,6 +56,5 @@ class CursoResponse(CursoBase):
             qtd_exercicios=curso_orm.qtd_exercicios
         )
 
-    # Configuração para indicar que este modelo (CursoResponse) é para uso com ORM (Object Relational Mapping).
     class Config:
         orm_mode = True

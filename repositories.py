@@ -2,45 +2,95 @@ from sqlalchemy.orm import Session
 from models import Curso
 from typing import List
 
-# Definindo uma classe chamada CursoRepository que será responsável por lidar com operações de banco de dados relacionadas a entidade Curso.
-class CursoRepository:
 
-    # Método estático para encontrar todos os cursos no banco de dados.
+class CursoRepository:
+    """
+    Classe responsável por gerenciar operações relacionadas ao modelo Curso no banco de dados.
+
+    Methods:
+        find_all(db: Session) -> List[Curso]: Retorna todos os cursos do banco de dados.
+        save(db: Session, curso: Curso) -> Curso: Salva um curso no banco de dados.
+        find_by_id(db: Session, curso_id: int) -> Curso: Retorna um curso pelo seu ID.
+        exists_by_id(db: Session, curso_id: int) -> bool: Verifica se um curso existe pelo seu ID.
+        delete_by_id(db: Session, curso_id: int) -> None: Deleta um curso pelo seu ID.
+
+    Attributes:
+        None
+    """
+
     @staticmethod
     def find_all(db: Session) -> List[Curso]:
+        """
+        Retorna todos os cursos do banco de dados.
+
+        Args:
+            db (Session): Sessão do banco de dados.
+
+        Returns:
+            List[Curso]: Lista de cursos.
+        """
         return db.query(Curso).all()
 
-    # Método estático para salvar um curso no banco de dados.
     @staticmethod
     def save(db: Session, curso: Curso) -> Curso:
-        # Verifica se o curso já possui um ID (ou seja, se já está no banco de dados).
+        """
+        Salva um curso no banco de dados.
+
+        Args:
+            db (Session): Sessão do banco de dados.
+            curso (Curso): Objeto do tipo Curso.
+
+        Returns:
+            Curso: O curso salvo no banco de dados.
+        """
         if curso.id:
-            # Se o curso já possui um ID, mescla (merge) com o objeto no banco de dados.
             db.merge(curso)
         else:
-            # Se o curso não possui um ID, adiciona ao banco de dados.
             db.add(curso)
-        # Comita a transação no banco de dados.
         db.commit()
-        # Retorna o curso (pode ser útil para obter o ID após a inserção, por exemplo).
         return curso
 
-    # Método estático para encontrar um curso pelo seu ID.
     @staticmethod
     def find_by_id(db: Session, curso_id: int) -> Curso:
+        """
+        Retorna um curso pelo seu ID.
+
+        Args:
+            db (Session): Sessão do banco de dados.
+            curso_id (int): ID do curso.
+
+        Returns:
+            Curso: O curso correspondente ao ID.
+        """
         return db.query(Curso).filter(Curso.id == curso_id).first()
 
-    # Método estático para verificar se um curso com um determinado ID existe no banco de dados.
     @staticmethod
     def exists_by_id(db: Session, curso_id: int) -> bool:
+        """
+        Verifica se um curso existe pelo seu ID.
+
+        Args:
+            db (Session): Sessão do banco de dados.
+            curso_id (int): ID do curso.
+
+        Returns:
+            bool: True se o curso existe, False caso contrário.
+        """
         return db.query(Curso.id).filter(Curso.id == curso_id).scalar() is not None
 
-    # Método estático para excluir um curso pelo seu ID.
     @staticmethod
     def delete_by_id(db: Session, curso_id: int) -> None:
+        """
+        Deleta um curso pelo seu ID.
+
+        Args:
+            db (Session): Sessão do banco de dados.
+            curso_id (int): ID do curso.
+
+        Returns:
+            None
+        """
         curso = db.query(Curso).filter(Curso.id == curso_id).first()
         if curso is not None:
-            # Se o curso existe, exclui do banco de dados.
             db.delete(curso)
-            # Comita a transação no banco de dados.
             db.commit()
