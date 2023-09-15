@@ -1,4 +1,4 @@
 # README.md
 
-Para obter mais informações, consulte a [documentação completa](https://r1cardopereira.github.io/FastAPI/docs/index.html)
+Para obter mais informações, consulte a [documentação completa](https://r1cardopereira.github.io/docs/index.html)
 
