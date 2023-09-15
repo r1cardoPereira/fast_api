@@ -78,9 +78,9 @@ const SphinxHighlight = {
     // get and clear terms from localstorage
     const url = new URL(window.location);
     const highlight =
-        localStorage.getItem("sphinx_highlight_terms")
-        || url.searchParams.get("highlight")
-        || "";
+      localStorage.getItem("sphinx_highlight_terms")
+      || url.searchParams.get("highlight")
+      || "";
     localStorage.removeItem("sphinx_highlight_terms")
     url.searchParams.delete("highlight");
     window.history.replaceState({}, "", url);
@@ -103,9 +103,9 @@ const SphinxHighlight = {
         .createRange()
         .createContextualFragment(
           '<p class="highlight-link">' +
-            '<a href="javascript:SphinxHighlight.hideSearchWords()">' +
-            _("Hide Search Matches") +
-            "</a></p>"
+          '<a href="javascript:SphinxHighlight.hideSearchWords()">' +
+          _("Hide Search Matches") +
+          "</a></p>"
         )
     );
   },
